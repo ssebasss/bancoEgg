@@ -22,18 +22,43 @@ public class MovimientosBancario {
             opciones=sc.nextInt();
             switch (opciones){
                 case 1:
+                    System.out.println("MENU cuanto plata queres ingresar????");
                    double ingreso=sc.nextDouble();
-                   ingresar(ingreso, c1);
+                   ingresar(ingreso, c1);break;
+                case 2:
+                    System.out.println("cuanto plata queres sacar????");
+                    double retiro=sc.nextDouble();
+                    retirar(c1, retiro);
+
+                case 4: mostrarSaldo(c1);break;
             }
         }while (opciones!=6);
     }
 
     public static double ingresar(double ingreso,Cuenta c1){
-        Scanner sc = new Scanner(System.in).useDelimiter("\n");
         double sumaingreso= (double) c1.getSaldoActual()+ingreso;
         c1.setSaldoActual((int) Math.round(sumaingreso));
         System.out.println("el nuevo saldo dsp del ingreso es "+c1.getSaldoActual());
+        return c1.getSaldoActual();
+    }
 
+    public static int mostrarSaldo(Cuenta c1){
+        System.out.println("su saldo disponible es jojo: "+ c1.getSaldoActual());
+        return c1.getSaldoActual();
+    }
+
+    public static boolean verificarSaldo(Cuenta c1, double retiro){
+        return c1.getSaldoActual()>=retiro;
+    }
+
+    public static double retirar(Cuenta c1, double retiro){
+        if (verificarSaldo(c1, retiro)){
+            double saldoPostRetiro= ((double) c1.getSaldoActual()-retiro);
+            System.out.println("retirando...." + retiro);
+            c1.setSaldoActual((int) Math.round(saldoPostRetiro));
+        }else {
+            System.out.println("espera a cobrar, no tenes money!!!!");
+        }
         return c1.getSaldoActual();
     }
 
