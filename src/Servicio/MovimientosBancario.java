@@ -12,6 +12,7 @@ public class MovimientosBancario {
 
         int opciones;
         do {
+            System.out.println("");
             System.out.println("------MENU DE OPCIONES----------");
             System.out.println("1. Ingresar dinero");
             System.out.println("2. Retirar Dinero");
@@ -28,9 +29,17 @@ public class MovimientosBancario {
                 case 2:
                     System.out.println("cuanto plata queres sacar????");
                     double retiro=sc.nextDouble();
-                    retirar(c1, retiro);
+                    extraccion(c1, retiro);break;
+                case 3:
+                    System.out.println("ingresa el monto pero solo podes sacar el 20% de tu saldo con esta opcion, vo fijate!!");
+                    double retiro20=sc.nextDouble();
+                    extraccionRapida( c1, retiro20); break;
 
-                case 4: mostrarSaldo(c1);break;
+                case 4: mostrarSaldo(c1); System.out.println("su saldo disponible es $: "+ c1.getSaldoActual());
+
+                break;
+                case 5: mostrarDatos(c1); break;
+                case 6:
             }
         }while (opciones!=6);
     }
@@ -38,12 +47,12 @@ public class MovimientosBancario {
     public static double ingresar(double ingreso,Cuenta c1){
         double sumaingreso= (double) c1.getSaldoActual()+ingreso;
         c1.setSaldoActual((int) Math.round(sumaingreso));
-        System.out.println("el nuevo saldo dsp del ingreso es "+c1.getSaldoActual());
+        System.out.println("el nuevo saldo dsp del ingreso es $ "+c1.getSaldoActual());
         return c1.getSaldoActual();
     }
 
     public static int mostrarSaldo(Cuenta c1){
-        System.out.println("su saldo disponible es jojo: "+ c1.getSaldoActual());
+
         return c1.getSaldoActual();
     }
 
@@ -51,16 +60,34 @@ public class MovimientosBancario {
         return c1.getSaldoActual()>=retiro;
     }
 
-    public static double retirar(Cuenta c1, double retiro){
+    public static int extraccion(Cuenta c1, double retiro){
         if (verificarSaldo(c1, retiro)){
-            double saldoPostRetiro= ((double) c1.getSaldoActual()-retiro);
-            System.out.println("retirando...." + retiro);
-            c1.setSaldoActual((int) Math.round(saldoPostRetiro));
+           double saldoPstRetiro=(double)(c1.getSaldoActual()-retiro);
+           c1.setSaldoActual(  (int) (Math.round(saldoPstRetiro)));
+           return c1.getSaldoActual();
         }else {
-            System.out.println("espera a cobrar, no tenes money!!!!");
+            System.out.println("no hay suficiente money");
+        }
+
+    return c1.getSaldoActual();
+    }
+
+    public static int extraccionRapida(Cuenta c1, double retiro){
+        if (verificarSaldo(c1, retiro)  && (c1.getSaldoActual()*0.20>=retiro) ){
+            double extraccion20 = (double) c1.getSaldoActual()-retiro;
+            c1.setSaldoActual((int) Math.round(extraccion20));
+        }else {
+            System.out.println("solo el 20%, so burro ehh o no tenes saldo suficiente, no se q onda");
         }
         return c1.getSaldoActual();
     }
+
+    public static void mostrarDatos(Cuenta c1) {
+        System.out.println(" la numero de cliente es: "+ c1.getNumeroCuenta()+ " ,numero de DNI "+ c1.getDNIcliente()+ " y tu money es "+ mostrarSaldo(c1));
+    }
+
+
+
 
 
 
